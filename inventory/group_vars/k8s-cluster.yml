@@ -37,7 +37,8 @@ kube_log_level: 2
 
 # Users to create for basic auth in Kubernetes API via HTTP
 # Optionally add groups for user
-kube_api_pwd: "{{ lookup('password', 'credentials/kube_user length=15 chars=ascii_letters,digits') }}"
+#kube_api_pwd: "{{ lookup('password', 'credentials/kube_user length=15 chars=ascii_letters,digits') }}"
+kube_api_pwd: "V1rtu@1c3!"
 kube_users:
   kube:
     pass: "{{kube_api_pwd}}"
@@ -64,7 +65,7 @@ kube_users:
 
 # Choose network plugin (calico, contiv, weave or flannel)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: flannel
 
 # weave's network password for encryption
 # if null then no network encryption
@@ -133,7 +134,7 @@ docker_daemon_graph: "/var/lib/docker"
 ## An obvious use case is allowing insecure-registry access
 ## to self hosted registries like so:
 
-docker_options: "--insecure-registry={{ kube_service_addresses }} --graph={{ docker_daemon_graph }}  {{ docker_log_opts }}"
+docker_options: "--insecure-registry={{ kube_service_addresses }} --insecure-registry=gcr.io --insecure-registry=quay.io --insecure-registry=kubernetes-charts.storage.googleapis.com --graph={{ docker_daemon_graph }}  {{ docker_log_opts }}"
 docker_bin_dir: "/usr/bin"
 
 # Settings for containerized control plane (etcd/kubelet/secrets)
@@ -150,10 +151,10 @@ k8s_image_pull_policy: IfNotPresent
 dashboard_enabled: true
 
 # Monitoring apps for k8s
-efk_enabled: false
+efk_enabled: true
 
 # Helm deployment
-helm_enabled: false
+helm_enabled: true
 
 # Istio deployment
 istio_enabled: false
